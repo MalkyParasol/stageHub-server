@@ -9,4 +9,4 @@ const ActorSchema =  new mongoose.Schema({
     email:String
 })
 
-module.exports = mongoose.model("Actors",ActorSchema);
+module.exports = mongoose.model("actors",ActorSchema);
