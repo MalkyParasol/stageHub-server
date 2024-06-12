@@ -6,6 +6,7 @@ const ProviderSchema =  new mongoose.Schema({
     email:String,
     product:String,
     price:Number,
+    password:String
 })
 
 module.exports = mongoose.model("providers",ProviderSchema);
