@@ -5,6 +5,7 @@ const DirectorSchema =  new mongoose.Schema({
     phone:String,
     email:String,
     password:String,
+    publicPassword:String
 })
 
 module.exports = mongoose.model("directors",DirectorSchema);

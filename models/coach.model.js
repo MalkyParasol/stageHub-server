@@ -4,12 +4,12 @@ const CoachSchema =  new mongoose.Schema({
     name:String,
     specialization:{
         type:String,
-        specializationshhh:["dancing","acting","singing","playing"]
+        specializations:["dancing","acting","singing","playing"]
     },
     directorId:String,
     phone:String,
     email:String,
-    password:String,
+    publicPassword:String,
 })
 
 module.exports = mongoose.model("coaches",CoachSchema);

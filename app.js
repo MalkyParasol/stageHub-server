@@ -5,7 +5,9 @@ const app = express();
 const connectDB = require("./db/dbconnection")
 connectDB()
 const userController = require("./controllers/user.controller")
+const managerController = require("./controllers/manager.controller")
 const bodyParser = require("body-parser");
+const authentication = require
 ///////////////
 
 const bcrypt = require("bcrypt");
@@ -31,7 +33,12 @@ const addManager = async()=>{
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
 app.use(userController);
+app.use(managerController);
+// const middlewares = [authentication];
+// app.use(middlewares);
+
 
 app.listen(port, () => {
     console.log(`listening on http://localhost:${port}`);
