@@ -1,0 +1,173 @@
+swagger: '2.0'
+info:
+  title: Your API Documentation
+  version: 1.0.0
+basePath: /
+schemes:
+  - http
+paths:
+  /signUp/coach/:
+    post:
+      summary: Create a new coach
+      tags:
+        - Director
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              specialization:
+                type: string
+              directorId:
+                type: string
+              phone:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: Coach created successfully
+        400:
+          description: Failed to create coach
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /signUp/director/:
+    post:
+      summary: Create a new director
+      tags:
+        - Manager
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+      responses:
+        200:
+          description: Director created successfully
+        400:
+          description: Failed to create director
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /login/manager:
+    post:
+      summary: Login as a manager
+      tags:
+        - User
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: Successful login
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+              id:
+                type: string
+        400:
+          description: Invalid credentials or other error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /login/director:
+    post:
+      summary: Login as a director
+      tags:
+        - User
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: Successful login
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+              id:
+                type: string
+        400:
+          description: Invalid credentials or other error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  /join:
+    post:
+      summary: Register as a candidate
+      tags:
+        - User
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              phone:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              publicPassword:
+                type: string
+      responses:
+        200:
+          description: Candidate added successfully
+        400:
+          description: Failed to add candidate
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header

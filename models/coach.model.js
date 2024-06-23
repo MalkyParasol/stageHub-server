@@ -9,7 +9,7 @@ const CoachSchema =  new mongoose.Schema({
     directorId:String,
     phone:String,
     email:String,
-    publicPassword:String,
+    password:String,
 })
 
 module.exports = mongoose.model("coaches",CoachSchema);

@@ -1,0 +1,40 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Your API Title",
+      "version": "1.0.0",
+      "description": "API documentation using Swagger"
+    },
+    "basePath": "/",
+    "paths": {
+      "/director/signUp/coach/": {
+        "post": {
+          "summary": "Create a new coach",
+          "tags": ["Director"],
+          "security": [{
+            "loggedIn": ["director"]
+          }],
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Coach created successfully"
+            },
+            "4xx": {
+              "description": "Error message"
+            }
+          }
+        }
+      },
+      "login/manager/":{
+        "post":{
+            "summary":"Login as a manager",
+            "tags":["Login"],
+            "security":[{
+                "loggedIn":["manager"]
+            }],
+            "parameters":[],
+            "responses":{}
+        }
+    }
+    }
+}

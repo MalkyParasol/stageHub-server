@@ -3,7 +3,7 @@ const condidateModel = require("../models/candidate.model");
 const directorModel = require("../models/director.model");
 
 
-
+//V
 const addDirector = async(email)=>{
     try{
         const condidate = await condidateModel.findOne({email:email});
