@@ -1,6 +1,7 @@
  const actorModel = require("../models/actor.model");
 const coachModel = require("../models/coach.model");
 const bcrypt = require("bcrypt");
+const providerModel = require("../models/provider.model");
 const addCoach = async(name,specialization,directorId,phone,email,password)=>{
    
     try{
@@ -49,7 +50,30 @@ const addCoach = async(name,specialization,directorId,phone,email,password)=>{
     }
  }
 
+ const addProvider = async(name,phone,email,product,price,password)=>{
+    try{
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+    
+        const provider = new providerModel({
+            name,
+            phone,
+            email,
+            product,
+            price,
+            password:hashPassword
+            
+        })
+        return provider.save();
+
+    }
+    catch(error){
+        return { statusCode: 400, message: `fail to add provider: ${error.message}` };
+    }
+ }
+
 module.exports={
     addCoach,
-    addActor
+    addActor,
+    addProvider
 }

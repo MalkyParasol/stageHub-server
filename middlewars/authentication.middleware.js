@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const TOKEN_SECRET= "sE6ret0gfknf";
 
-const loggedIn = (role)=>{
+const checkAuth = (role)=>{
     return function (req, res, next) {
     
     const token = req.body.token || req.query.token || req.headers["auth-token"];
@@ -21,4 +21,4 @@ const loggedIn = (role)=>{
         return res.status(401).send("Invalid Token");
     }
 }}
-module.exports = loggedIn;
+module.exports = checkAuth;

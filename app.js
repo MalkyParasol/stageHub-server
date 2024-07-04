@@ -8,6 +8,9 @@ const swaggerSetup = require('./swagger');
 require('dotenv').config()
 const port = process.env.PORT
 
+//cors
+const cors = require('cors');
+
 //app
 const app = express();
 
@@ -68,7 +71,7 @@ const bodyParser = require("body-parser");
 //   };
 //   const specs = swaggerJsdoc(options);
 //   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

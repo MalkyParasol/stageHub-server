@@ -1,9 +1,9 @@
 const {Router} = require("express");
 const managerService = require("../services/manager.service")
-const loggedIn = require("../middlewars/authentication.middleware");
+const checkAuth = require("../middlewars/authentication.middleware");
 const router = Router();
 //V
-router.post("/signUp/director/",loggedIn("manager"), async (req, res) => {
+router.post("/signUp/director/",checkAuth("manager"), async (req, res) => {
     const {email} = req.body
     const result = await managerService.addDirector(email);
     const { statusCode, message} = result;
@@ -13,7 +13,7 @@ router.post("/signUp/director/",loggedIn("manager"), async (req, res) => {
         res.status(statusCode).send(message);
 });
 //V
-router.get("/hello",loggedIn("manager"),(req,res)=>{
+router.get("/hello",checkAuth("manager"),(req,res)=>{
  res.status(200).send("hello manager");
 })
 
