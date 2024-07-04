@@ -2,6 +2,11 @@
 const coachModel = require("../models/coach.model");
 const bcrypt = require("bcrypt");
 const providerModel = require("../models/provider.model");
+const practiceModel = require("../models/practice.model");
+const showModel = require("../models/show.model");
+const mongoose = require('mongoose');
+const { Types } = mongoose;
+
 const addCoach = async(name,specialization,directorId,phone,email,password)=>{
    
     try{
@@ -72,8 +77,103 @@ const addCoach = async(name,specialization,directorId,phone,email,password)=>{
     }
  }
 
+//  practices
+const addPractice = async(date,directorId,coachId,actorsId)=>{
+    try{
+        const practice = new practiceModel({
+            date,
+            directorId,
+            coachId,
+            actorsId
+        })
+        return practice.save();
+    }
+    catch(error){
+        return { statusCode: 400, message: `fail to add practice: ${error.message}` };
+    }
+ }
+
+ const updatePractice = async(practiceId,date,directorId,coachId,actorsId)=>{
+    try{
+        const practiceIdObj = new Types.ObjectId(practiceId);
+        const newPractice = await practiceModel.findOneAndUpdate(
+            { _id: practiceIdObj },
+            {date:date,
+            directorId:directorId,
+            coachId:coachId,
+            actorsId:actorsId},
+            { new: true }
+        );
+        return newPractice
+    }
+    catch(error){
+        return { statusCode: 400, message: `fail to update practice: ${error.message}` };
+    }
+      
+ }
+
+const getAllPractices = async()=>{
+    try{
+        return practiceModel.find();
+    }
+    catch(error){
+        return { statusCode: 400, message: `fail to get practices: ${error.message}` };
+    }
+}
+// V
+const addShow = async(name,date,location,price,numAvailableTickets,directorId)=>{
+    try{
+        const show = new showModel({
+            name,
+            date,
+            location,
+            price,
+            numAvailableTickets,
+            directorId
+        })
+        return show.save();
+    }
+    catch(error){
+        return { statusCode: 400, message: `fail to add show: ${error.message}` };
+    }
+ }
+
+ const getAllProviders = async()=>{
+    try{
+        return providerModel.find();
+    }
+    catch(error){
+        return { statusCode: 400, message: `fail to get providers: ${error.message}` };
+    }
+}
+
+const getAllActors = async()=>{
+    try{
+        return actorModel.find();
+    }
+    catch(error){
+        return { statusCode: 400, message: `fail to get actors: ${error.message}` };
+    }
+}
+
+const getAllCoaches = async()=>{
+    try{
+        return coachModel.find();
+    }
+    catch(error){
+        return { statusCode: 400, message: `fail to get choaches: ${error.message}` };
+    }
+}
+
 module.exports={
     addCoach,
     addActor,
-    addProvider
+    addProvider,
+    addPractice,
+    getAllPractices,
+    addShow,
+    getAllProviders,
+    getAllActors,
+    getAllCoaches,
+    updatePractice
 }

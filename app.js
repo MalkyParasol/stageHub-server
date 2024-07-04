@@ -23,6 +23,8 @@ connectDB()
 const userController = require("./controllers/user.controller")
 const managerController = require("./controllers/manager.controller")
 const directorController = require("./controllers/director.controller")
+const coachController = require("./controllers/coach.controller")
+const actorController = require("./controllers/actor.controller")
 
 const bodyParser = require("body-parser");
 
@@ -80,6 +82,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(userController);
 app.use(managerController);
 app.use(directorController);
+app.use(coachController);
+app.use(actorController)
 // const middlewares = [authentication];
 // app.use(middlewares);
 
