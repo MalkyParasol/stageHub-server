@@ -13,10 +13,18 @@ router.post("/signUp/director/",checkAuth("manager"), async (req, res) => {
         res.status(statusCode).send(message);
 });
 //V
-router.get("/hello",checkAuth("manager"),(req,res)=>{
- res.status(200).send("hello manager");
+router.get("/manager/details/:id",checkAuth("manager"),async (req,res)=>{
+    const id = req.params.id;
+    const result = await managerService.getDetails(id)
+    const { statusCode, message} = result;
+    if(!statusCode)
+        res.status(200).send(result);
+    else
+        res.status(statusCode).send(message);
+});
+router.get("/hello",checkAuth("manager"),async (req,res)=>{
+    res.status(200).send("helllo!");
 })
-
 
 
 module.exports = router;

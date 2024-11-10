@@ -1,7 +1,9 @@
 const bcrypt = require("bcrypt");
 const condidateModel = require("../models/candidate.model");
 const directorModel = require("../models/director.model");
-
+const managerModel = require("../models/manager.model");
+const mongoose = require('mongoose');
+const { Types } = mongoose;
 
 //V
 const addDirector = async(email)=>{
@@ -25,6 +27,17 @@ const addDirector = async(email)=>{
     }
 }
 
+
+const getDetails = async (id) =>{
+    try{
+        const {name, phone} = await managerModel.findById( new mongoose.Types.ObjectId(id), 'name phone');
+        return { statusCode: 200, message: {name, phone} }
+    }
+    catch(error){
+        return { statusCode: 400, message: `Failed to get manager details: ${error.message}` };
+    }
+}
 module.exports={
-    addDirector
+    addDirector,
+    getDetails
 }

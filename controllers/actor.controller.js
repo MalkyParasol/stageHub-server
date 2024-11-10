@@ -14,6 +14,16 @@ router.get('/actor/practices/:actorId' , checkAuth("actor"), async(req,res) => {
         res.status(statusCode).send(message);
 })
 
+router.get("/actor/details/:id",checkAuth("actor"),async (req,res)=>{
+    const id = req.params.id;
+    const result = await actorService.getDetails(id)
+    const { statusCode, message} = result;
+    if(!statusCode)
+        res.status(200).send(result);
+    else
+        res.status(statusCode).send(message);
+});
+
 module.exports=router
 
 

@@ -1,5 +1,8 @@
 const bcrypt = require("bcrypt");
 const practiceModel = require("../models/practice.model");
+const actorModel = require("../models/actor.model");
+const mongoose = require('mongoose');
+const { Types } = mongoose;
 
 const getAllPractices = async(actorId) =>{
     try{
@@ -10,8 +13,19 @@ const getAllPractices = async(actorId) =>{
     }
 }
 
+const getDetails = async (id) =>{
+    try{
+        const {name, role, coachId, directorId, phone} = await actorModel.findById( new mongoose.Types.ObjectId(id), 'name role coachId directorId phone');
+        return { statusCode: 200, message: {name, role, coachId, directorId, phone} }
+    }
+    catch(error){
+        return { statusCode: 400, message: `Failed to get actor details: ${error.message}` };
+    }
+}
+
 
 
 module.exports={
-    getAllPractices
+    getAllPractices,
+    getDetails
 }

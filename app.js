@@ -25,9 +25,9 @@ const managerController = require("./controllers/manager.controller")
 const directorController = require("./controllers/director.controller")
 const coachController = require("./controllers/coach.controller")
 const actorController = require("./controllers/actor.controller")
+const providerController = require("./controllers/provider.controller")
 
 const bodyParser = require("body-parser");
-
 
 ///////////////
 
@@ -83,7 +83,8 @@ app.use(userController);
 app.use(managerController);
 app.use(directorController);
 app.use(coachController);
-app.use(actorController)
+app.use(actorController);
+app.use(providerController);
 // const middlewares = [authentication];
 // app.use(middlewares);
 

@@ -5,6 +5,7 @@ const providerModel = require("../models/provider.model");
 const practiceModel = require("../models/practice.model");
 const showModel = require("../models/show.model");
 const mongoose = require('mongoose');
+const directorModel = require("../models/director.model");
 const { Types } = mongoose;
 
 const addCoach = async(name,specialization,directorId,phone,email,password)=>{
@@ -165,6 +166,16 @@ const getAllCoaches = async()=>{
     }
 }
 
+const getDetails = async (id) =>{
+    try{
+        const {name, phone} = await directorModel.findById( new mongoose.Types.ObjectId(id), 'name phone');
+        return { statusCode: 200, message: {name, phone} }
+    }
+    catch(error){
+        return { statusCode: 400, message: `Failed to get director details: ${error.message}` };
+    }
+}
+
 module.exports={
     addCoach,
     addActor,
@@ -175,5 +186,6 @@ module.exports={
     getAllProviders,
     getAllActors,
     getAllCoaches,
-    updatePractice
+    updatePractice,
+    getDetails
 }

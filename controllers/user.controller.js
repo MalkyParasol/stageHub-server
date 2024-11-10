@@ -7,6 +7,35 @@ const providerModel = require("../models/provider.model");
 const coachModel = require("../models/coach.model");
 
 const router = Router();
+router.post("/orderticket", async(req,res)=>{
+  const {email,name,phone,amount,showId} = req.body;
+  const result = await userService.orderTicket(email,name,phone,amount,showId);
+//   if(result) {
+//     const { statusCode, message } = result;
+//     if (!statusCode) {
+//         res.status(200).send(result);
+//     } else {
+//         res.status(statusCode).send(message);
+//     }
+// } else {
+//     res.status(500).send("Internal Server Error");
+// }
+  
+  
+  const {statusCode,message} = result;
+    if(!statusCode)
+        res.status(200).send(result);
+    else
+        res.status(statusCode).send(message);
+})
+router.get("/shows",async (req,res)=>{
+  const result= await userService.getAllShows();
+    const {statusCode,message} = result;
+    if(!statusCode)
+        res.status(200).send(result);
+    else
+        res.status(statusCode).send(message);
+})
 //V
 router.post("/login/manager", async (req, res) => {
     const { email, password } = req.body;
