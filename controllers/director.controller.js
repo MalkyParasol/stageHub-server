@@ -36,8 +36,8 @@ router.post("/director/signUp/provider",checkAuth("director"),async(req,res)=>{
 // practices
 // V
 router.post("/director/practice", checkAuth("director") ,async(req,res)=>{
-    const {date,directorId,coachId,actorsId} = req.body;
-    const result = await directorService.addPractice(date,directorId,coachId,actorsId);
+    const {date,directorId,coachId,actorsId,startHour,endHour,location} = req.body;
+    const result = await directorService.addPractice(date,directorId,coachId,actorsId,startHour,endHour,location);
     const {statusCode,message} = result;
     if(!statusCode)
         res.status(200).send("practice created successfully");

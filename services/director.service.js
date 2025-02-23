@@ -79,13 +79,16 @@ const addCoach = async(name,specialization,directorId,phone,email,password)=>{
  }
 
 //  practices
-const addPractice = async(date,directorId,coachId,actorsId)=>{
+const addPractice = async(date,directorId,coachId,actorsId,startHour,endHour,location)=>{
     try{
         const practice = new practiceModel({
             date,
             directorId,
             coachId,
-            actorsId
+            actorsId,
+            startHour,
+            endHour,
+            location
         })
         return practice.save();
     }
