@@ -30,8 +30,8 @@ const addDirector = async(email)=>{
 
 const getDetails = async (id) =>{
     try{
-        const {name, phone} = await managerModel.findById( new mongoose.Types.ObjectId(id), 'name phone');
-        return { statusCode: 200, message: {name, phone} }
+        const {name, phone,email} = await managerModel.findById( new mongoose.Types.ObjectId(id), 'name phone email');
+        return { statusCode: 200, message: {name, phone,email} }
     }
     catch(error){
         return { statusCode: 400, message: `Failed to get manager details: ${error.message}` };

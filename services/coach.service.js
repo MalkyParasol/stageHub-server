@@ -25,8 +25,8 @@ const getAllActors = async(coachId) =>{
 
 const getDetails = async (id) =>{
     try{
-        const {name, specialization, directorId, phone} = await coachModel.findById( new mongoose.Types.ObjectId(id), 'name specialization directorId phone');
-        return { statusCode: 200, message: {name, specialization, directorId, phone } }
+        const {name, specialization, directorId, phone,email} = await coachModel.findById( new mongoose.Types.ObjectId(id), 'name specialization directorId phone email');
+        return { statusCode: 200, message: {name, specialization, directorId, phone , email} }
     }
     catch(error){
         return { statusCode: 400, message: `Failed to get coach details: ${error.message}` };
