@@ -2,6 +2,44 @@ const {Router} = require("express");
 const directorService = require("../services/director.service")
 const checkAuth = require("../middlewars/authentication.middleware");
 const router = Router();
+const multer = require("multer");
+const path = require("path");
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "uploads/"); // folder where files will be saved
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
+      const ext = path.extname(file.originalname);
+      cb(null, file.fieldname + "-" + uniqueSuffix + ext);
+    }
+  });
+  const upload = multer({ storage: storage });
+
+  
+  router.post(
+    "/director/upload",
+    checkAuth("director"),
+    upload.single("file"), // the key name in form-data should be "file"
+    async (req, res) => {
+      if (!req.file) {
+        return res.status(400).send("No file uploaded.");
+      }
+  
+      // File info
+      const filePath = req.file.path;
+  
+      // Optionally update the director's profile in DB with the file path:
+      // await directorModel.findByIdAndUpdate(req.user._id, { uploadedFile: filePath });
+  
+      res.status(200).send({
+        message: "File uploaded successfully",
+        path: filePath,
+      });
+    }
+  );
 //V
 router.post("/director/signUp/coach/",checkAuth("director"), async (req, res) => {
     const {name,specialization,directorId,phone,email,password} = req.body
