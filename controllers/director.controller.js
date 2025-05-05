@@ -6,40 +6,79 @@ const multer = require("multer");
 const path = require("path");
 
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "uploads/"); // folder where files will be saved
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
-      const ext = path.extname(file.originalname);
-      cb(null, file.fieldname + "-" + uniqueSuffix + ext);
+
+
+
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+const UploadedFile = require("../models/file.model");
+
+router.post("/director/upload", checkAuth("director"), upload.single("file"), async (req, res) => {
+    try {
+      const { originalname, mimetype, size, buffer } = req.file;
+  
+      const fileDoc = new UploadedFile({
+        originalName: originalname,
+        mimeType: mimetype,
+        size,
+        buffer,
+      });
+  
+      await fileDoc.save();
+      res.status(200).send("File uploaded and stored in MongoDB successfully.");
+    } catch (err) {
+      res.status(500).send(`Upload failed: ${err.message}`);
+    }
+});
+
+
+router.get("/director/uploaded-files", checkAuth("director"), async (req, res) => {
+    try {
+      const files = await UploadedFile.find({}, '-buffer'); // exclude file content
+      res.status(200).json(files);
+    } catch (err) {
+      res.status(500).send(`Failed to fetch files: ${err.message}`);
+    }
+});
+
+router.get("/director/uploaded-files/:id", checkAuth("director"), async (req, res) => {
+    try {
+      const file = await UploadedFile.findById(req.params.id);
+      if (!file) return res.status(404).send("File not found");
+  
+      res.set({
+        "Content-Type": file.mimeType,
+        "Content-Disposition": `attachment; filename="${file.originalName}"`,
+      });
+  
+      res.send(file.buffer);
+    } catch (err) {
+      res.status(500).send(`Error retrieving file: ${err.message}`);
     }
   });
-  const upload = multer({ storage: storage });
-
   
-  router.post(
-    "/director/upload",
-    checkAuth("director"),
-    upload.single("file"), // the key name in form-data should be "file"
-    async (req, res) => {
-      if (!req.file) {
-        return res.status(400).send("No file uploaded.");
-      }
+//   router.post(
+//     "/director/upload",
+//     checkAuth("director"),
+//     upload.single("file"), // the key name in form-data should be "file"
+//     async (req, res) => {
+//       if (!req.file) {
+//         return res.status(400).send("No file uploaded.");
+//       }
   
-      // File info
-      const filePath = req.file.path;
+//       // File info
+//       const filePath = req.file.path;
   
-      // Optionally update the director's profile in DB with the file path:
-      // await directorModel.findByIdAndUpdate(req.user._id, { uploadedFile: filePath });
+//       // Optionally update the director's profile in DB with the file path:
+//       // await directorModel.findByIdAndUpdate(req.user._id, { uploadedFile: filePath });
   
-      res.status(200).send({
-        message: "File uploaded successfully",
-        path: filePath,
-      });
-    }
-  );
+//       res.status(200).send({
+//         message: "File uploaded successfully",
+//         path: filePath,
+//       });
+//     }
+//   );
 //V
 router.post("/director/signUp/coach/",checkAuth("director"), async (req, res) => {
     const {name,specialization,directorId,phone,email,password} = req.body
