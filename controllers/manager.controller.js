@@ -22,9 +22,7 @@ router.get("/manager/details/:id",checkAuth("manager"),async (req,res)=>{
     else
         res.status(statusCode).send(message);
 });
-router.get("/hello",checkAuth("manager"),async (req,res)=>{
-    res.status(200).send("helllo!");
-})
+
 
 
 module.exports = router;
